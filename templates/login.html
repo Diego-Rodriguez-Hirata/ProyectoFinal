@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Iniciar Sesión</title>
+    <style>
+        /* Estilos CSS para centrar los elementos */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .login-form {
+            text-align: center;
+        }
+
+        .flashes {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>Iniciar Sesión</h1>
+            <!-- Mostrar mensaje de inicio de sesión exitoso -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="text" placeholder="Usuario" name="username" required><br>
+                <input type="password" placeholder="Contraseña" name="password" required><br>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <!-- Mostrar sesión iniciada -->
+            {% if 'username' in session %}
+                <p>Sesión iniciada como: {{ session['username'] }}</p>
+                <p><a href="{{ url_for('logout') }}">Cerrar Sesión</a></p>
+            {% endif %}
+        </div>
+        <p class="create-account">¿No tienes una cuenta? <a href="{{ url_for('signup') }}">Crear una cuenta</a></p>
+    </div>
+</body>
+</html>

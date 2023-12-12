@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Página Principal - Métodos Numéricos</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <h1>Métodos numéricos</h1>
+    
+    <!-- Formulario de inicio de sesión -->
+    <div class="container">
+        <div class="login-form">
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="text" placeholder="Usuario" name="username" required><br>
+                <input type="password" placeholder="Contraseña" name="password" required><br>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <p class="create-account">¿No tienes una cuenta? <a href="{{ url_for('signup') }}">Crear una cuenta</a></p>
+        </div>
+    </div>
+
+    <div class="user-session">
+        {% if 'username' in session %}
+            <p>Sesión iniciada como: {{ session['username'] }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Agregar aquí el código del menú desplegable -->
+    <div class="dropdown">
+        <button class="dropbtn">Menú</button>
+        <div class="dropdown-content">
+            <a href="{{ url_for('newtonrhapson') }}">Newton-Rhapson</a>
+            <a href="{{ url_for('crout') }}">Crout</a>
+            <a href="{{ url_for('diffin') }}">Diferencias Finitas</a>
+            <a href="{{ url_for('cuadgauss') }}">Cuadratura Gaussiana</a>
+            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            {% if 'username' in session %}
+            <p>Sesión iniciada como: {{ session['username'] }}</p>
+            {% else %}
+                <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

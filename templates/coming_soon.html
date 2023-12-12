@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Crear Cuenta</title>
+    <style>
+        /* Estilos CSS para centrar los mensajes */
+        .session-info {
+            text-align: center;
+            margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>Crear Cuenta</h1>
+            <form action="{{ url_for('signup') }}" method="POST">
+                <input type="email" placeholder="Correo Electrónico" name="email" required class="input-field"><br>
+                <input type="text" placeholder="Usuario" name="username" required class="input-field"><br>
+                <input type="password" placeholder="Contraseña" name="password" required class="input-field"><br>
+                <input type="submit" value="Crear Cuenta">
+            </form>
+        </div>
+        <!-- Contenedor para los mensajes de sesión -->
+        <div class="session-info">
+            {% if 'username' in session %}
+                <p>Sesión iniciada como: {{ session['username'] }}</p>
+                <p><a href="{{ url_for('logout') }}">Cerrar Sesión</a></p>
+            {% else %}
+                <!-- Mostrar mensaje de inicio de sesión -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
